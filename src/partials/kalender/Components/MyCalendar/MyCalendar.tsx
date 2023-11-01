@@ -33,13 +33,14 @@ useEffect(() => {
 
 
 const wee = isi.map((pm) => ({
+    status: pm.status,
     start: moment(pm.startTime).toDate(),
     end: moment(pm.endTime).toDate(),
     title: [pm.namaPIC, ": ", pm.keperluan],
     data: {
       type: "App",
     },
-}));
+})).filter((dat) => dat.status === "Approved");
 
 // const events = [
 //   {
@@ -60,6 +61,14 @@ const components = {
         return (
           <div
             style={{ background: "#FDD60C", color: "black", height: "100%" }}
+          >
+            {props.title}
+          </div>
+        );
+      case "Reg":
+        return (
+          <div
+            style={{ background: "red", color: "black", height: "100%" }}
           >
             {props.title}
           </div>
