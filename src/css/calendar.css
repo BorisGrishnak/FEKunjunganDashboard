@@ -1,0 +1,14 @@
+#root {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2 rem;
+    text-align: center;
+}
+
+.css-knqc4i-MuiDialogActions-root {
+    display: none !important;
+}
+
+.css-1hbyad5-MuiTypography-root {
+    display: none !important;
+}
