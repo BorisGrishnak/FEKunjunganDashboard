@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import DataTable, { createTheme } from 'react-data-table-component';
 import { useThemeProvider } from '../utils/ThemeContext';
+import LoadingSpinner from './LoadingSpinner';
 
 export default function TableRuangCollaboration() {
 
@@ -57,6 +58,15 @@ const data = [
     }
 ]
 
+const [pending, setPending] = useState(true);
+
+useEffect(() => {
+    const timeout = setTimeout(() => {
+        setPending(false);
+    }, 600);
+    return () => clearTimeout(timeout);
+}, []);
+
 const { currentTheme } = useThemeProvider();
 
     return (
@@ -65,8 +75,11 @@ const { currentTheme } = useThemeProvider();
             fixedHeader
             fixedHeaderScrollHeight="300px"
             responsive
+            highlightOnHover
             columns={columns}
             data={data}
+            progressPending={pending}
+            progressComponent={<LoadingSpinner />}
             theme={currentTheme}
         />
     );

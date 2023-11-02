@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useThemeProvider } from '../utils/ThemeContext';
 import { Button } from "@material-tailwind/react";
 import Swal from "sweetalert2";
+import LoadingSpinner from './LoadingSpinner';
 
 export default function TablePeminjaman() {
 
@@ -36,7 +37,7 @@ useEffect(() => {
         })
        }
        fetchData()
-    }, 1000);
+    }, 500);
     return () => clearInterval(interval);
      }, [])
 
@@ -127,6 +128,15 @@ const data = isi.map((pm) => (
     }
 ))
 
+const [pending, setPending] = useState(true);
+
+useEffect(() => {
+    const timeout = setTimeout(() => {
+        setPending(false);
+    }, 600);
+    return () => clearTimeout(timeout);
+}, []);
+
 const war = data.map((dat) => dat.id);
 // console.log(war[0]);
 
@@ -138,9 +148,12 @@ const { currentTheme } = useThemeProvider();
             fixedHeader
             fixedHeaderScrollHeight="300px"
             responsive
+            highlightOnHover
             keyField={data.id}
             columns={columns}
             data={data}
+            progressPending={pending}
+            progressComponent={<LoadingSpinner />}
             theme={currentTheme}
         />
     );
