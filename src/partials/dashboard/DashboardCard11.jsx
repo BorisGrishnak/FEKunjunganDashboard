@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import BarChart from '../../charts/BarChart03';
 
 // Import utilities
@@ -6,12 +7,41 @@ import { tailwindConfig } from '../../utils/Utils';
 
 function DashboardCard11() {
 
+const [isi, setIsi] = useState([]);
+const [smb, setSmb] = useState([]);
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    const fetchData = () =>{
+      axios.get('https://localhost:7286/api/Review').then(postData => {
+      // reshaping the array
+      const customHeadings = postData.data.map(item=>({
+        "idReview": item.idReview,
+        "idPeminjaman": item.idPeminjaman,
+        "kenyamanan": item.kenyamanan,
+        "kelengkapan": item.kelengkapan,
+        "rating": item.rating,
+        "saran": item.saran
+      }))
+      setIsi(customHeadings)
+      const pe = customHeadings.filter((dt => dt.rating = 5))
+      const sm = pe.length;
+      setSmb(sm)
+      })
+     }
+     fetchData()
+  }, 100);
+  return () => clearInterval(interval);
+   }, [])
+
+   const jumRev = isi.map(dt => dt).length
+
   const chartData = {
     labels: ['Reasons'],
     datasets: [
       {
         label: 'Sangat Buruk',
-        data: [5],
+        data: [0],
         backgroundColor: tailwindConfig().theme.colors.red[500],
         hoverBackgroundColor: tailwindConfig().theme.colors.red[600],
         barPercentage: 1,
@@ -19,7 +49,7 @@ function DashboardCard11() {
       },
       {
         label: 'Buruk',
-        data: [10],
+        data: [0],
         backgroundColor: tailwindConfig().theme.colors.orange[500],
         hoverBackgroundColor: tailwindConfig().theme.colors.orange[700],
         barPercentage: 1,
@@ -27,7 +57,7 @@ function DashboardCard11() {
       },
       {
         label: 'Netral',
-        data: [81],
+        data: [0],
         backgroundColor: tailwindConfig().theme.colors.yellow[400],
         hoverBackgroundColor: tailwindConfig().theme.colors.yellow[500],
         barPercentage: 1,
@@ -35,7 +65,7 @@ function DashboardCard11() {
       },
       {
         label: 'Memuaskan',
-        data: [65],
+        data: [1],
         backgroundColor: tailwindConfig().theme.colors.green[400],
         hoverBackgroundColor: tailwindConfig().theme.colors.green[500],
         barPercentage: 1,
@@ -43,11 +73,12 @@ function DashboardCard11() {
       },
       {
         label: 'Sangat Memuaskan',
-        data: [72],
+        data: [smb],
         backgroundColor: tailwindConfig().theme.colors.cyan[300],
         hoverBackgroundColor: tailwindConfig().theme.colors.cyan[500],
         barPercentage: 1,
         categoryPercentage: 1,
+        
       },
     ],
   };
@@ -59,7 +90,7 @@ function DashboardCard11() {
       </header>
       <div className="px-5 py-3">
         <div className="flex items-start">
-          <div className="text-3xl font-bold text-slate-800 dark:text-slate-100 mr-2">449</div>
+          <div className="text-3xl font-bold text-slate-800 dark:text-slate-100 mr-2">{jumRev}</div>
           <div className="text-sm font-semibold text-white px-1.5 bg-green-500 rounded-full">Rating</div>
         </div>
       </div>

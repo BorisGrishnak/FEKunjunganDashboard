@@ -1,0 +1,29 @@
+  .star-rating {
+  display: flex;
+}
+  
+.star-rating .star-filled {
+  color: orange;
+  cursor: pointer;
+}
+
+/* CSS untuk mengatur lebar kolom */
+.py-5 {
+  width: 30%; /* Sesuaikan dengan lebar yang Anda inginkan */
+  max-width: 200px; /* Sesuaikan dengan lebar maksimal yang Anda inginkan */
+  /* white-space: nowrap; /* Mencegah teks meluas secara horizontal */
+  /* overflow: hidden; Menyembunyikan teks yang berlebihan */ 
+  /* text-overflow: ellipsis; Menyisipkan ellipsis untuk teks yang terlalu panjang */
+}
+
+/* CSS untuk mengatur teks tengah vertikal */
+.centered-text {
+  display: flex;
+  align-items: center;
+}
+
+/* .haha-text {
+  white-space: nowrap;
+  overflow: hidden;
+} */
+  

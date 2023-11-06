@@ -1,50 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import LineChart from '../../charts/LineChart01';
 import Icon from '../../images/icon-03.svg';
 import EditMenu from '../../components/DropdownEditMenu';
+import axios from 'axios';
 
 // Import utilities
 import { tailwindConfig, hexToRGB } from '../../utils/Utils';
 
 function DashboardCard03() {
 
-  const chartData = {
-    labels: [
-      '12-01-2020', '01-01-2021', '02-01-2021',
-      '03-01-2021', '04-01-2021', '05-01-2021',
-      '06-01-2021', '07-01-2021', '08-01-2021',
-      '09-01-2021', '10-01-2021', '11-01-2021',
-      '12-01-2021', '01-01-2022', '02-01-2022',
-      '03-01-2022', '04-01-2022', '05-01-2022',
-      '06-01-2022', '07-01-2022', '08-01-2022',
-      '09-01-2022', '10-01-2022', '11-01-2022',
-      '12-01-2022', '01-01-2023',
-    ],
-    datasets: [
-      // Indigo line
-      {
-        data: [
-          540, 466, 540, 466, 385, 432, 334,
-          334, 289, 289, 200, 289, 222, 289,
-          289, 403, 554, 304, 289, 270, 134,
-          270, 829, 344, 388, 364,
-        ],
-        fill: true,
-        backgroundColor: `rgba(${hexToRGB(tailwindConfig().theme.colors.yellow[500])}, 0.08)`,
-        borderColor: tailwindConfig().theme.colors.yellow[500],
-        borderWidth: 2,
-        tension: 0,
-        pointRadius: 0,
-        pointHoverRadius: 3,
-          pointBackgroundColor: tailwindConfig().theme.colors.yellow[500],
-          pointHoverBackgroundColor: tailwindConfig().theme.colors.yellow[500],
-          pointBorderWidth: 0,
-          pointHoverBorderWidth: 0,          
-          clip: 20,
-      },
-    ],
-  };
+const [isi, setIsi] = useState([]);
+
+useEffect(() => {
+    const interval = setInterval(() => {
+    const fetchData = () =>{
+        axios.get('https://localhost:7286/api/Review').then(postData => {
+
+        // reshaping the array
+        const customHeadings = postData.data.map(item=>({
+          "idReview": item.idReview,
+          "idPeminjaman": item.idPeminjaman,
+          "kenyamanan": item.kenyamanan,
+          "kelengkapan": item.kelengkapan,
+          "rating": item.rating,
+          "saran": item.saran
+        }))
+        setIsi(customHeadings)
+        })
+       }
+       fetchData()
+    }, 500);
+    return () => clearInterval(interval);
+     }, [])
+
+  const jumlahReview = isi.length;
 
   return (
     <div className="flex flex-col col-span-full sm:col-span-3 xl:col-span-3 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
@@ -73,7 +63,7 @@ function DashboardCard03() {
         </header>
         <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-4">Jumlah Review</h2>        
         <div className="flex items-start">
-          <div className="text-6xl font-bold text-slate-800 dark:text-slate-100 mr-2">2</div>
+          <div className="text-6xl font-bold text-slate-800 dark:text-slate-100 mr-2">{jumlahReview}</div>
           <div className="text-sm font-semibold text-white px-1.5 bg-amber-500 rounded-full">Review</div>
         {/* <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase mb-1">Ulasan</div> */}
         </div>

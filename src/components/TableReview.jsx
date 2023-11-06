@@ -1,33 +1,41 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import DataTable, { createTheme } from 'react-data-table-component';
+import { useNavigate } from 'react-router-dom';
 import { useThemeProvider } from '../utils/ThemeContext';
 import { Button } from "@material-tailwind/react";
-
+import ReviewTable from '../partials/review/ReviewTable'
+     
 export default function TableReview() {
 
-// const [isi, setIsi] = useState([]);
+const [isi, setIsi] = useState([]);
 
-// useEffect(() => {
-//     const fetchData = () =>{
-//      axios.get('https://localhost:7225/api/Tamu').then(postData => {
+useEffect(() => {
+    const fetchData = () =>{
+        axios.get('https://localhost:7286/api/Review').then(postData => {
 
-//      // reshaping the array
-//      const customHeadings = postData.data.map(item=>({
-//        "idTamu": item.idTamu,
-//        "namaTamu": item.namaTamu,
-//        "emailTamu": item.emailTamu,
-//        "kepentingan": item.kepentingan,
-//      }))
-//      setIsi(customHeadings)
-//     //   console.log(customHeadings);
-//      })
-//     }
-//     fetchData()
-// }, [])  
+        // reshaping the array
+        const customHeadings = postData.data.map(item=>({
+            "idReview": item.idReview,
+            "idPeminjaman": item.idPeminjaman,
+            "ticket": item.ticket,
+            "namaPIC": item.namaPIC,
+            "kenyamanan": item.kenyamanan,
+            "kelengkapan": item.kelengkapan,
+            "rating": item.rating,
+            "saran": item.saran
+        }))
+        setIsi(customHeadings)
+         // console.log(customHeadings);
+        })
+       }
+       fetchData()
+     }, [])
 
-// const wee = isi.map((png) => png);
-// console.log(wee);
+function handleNavigate(e) {
+    e.preventDefault()
+    navigate('/detailreview')
+}
 
 const columns = [
     {
@@ -35,20 +43,12 @@ const columns = [
         selector: row => row.tiket,
     },
     {
-        name: 'PIC',
-        selector: row => row.pic,
+        name: 'Nama',
+        selector: row => row.nama,
     },
     {
-        name: 'Ruangan',
-        selector: row => row.namaRuang,
-    },
-    {
-        name: 'Tanggal, Jam Mulai',
-        selector: row => row.tanggalJamMulai,
-    },
-    {
-        name: 'Status',
-        selector: row => row.status,
+        name: 'Rating',
+        selector: row => row.rating,
     },
     {
         name: 'Aksi',
@@ -56,60 +56,26 @@ const columns = [
     },
 ];
 
-const [approve, setApprove] = useState(0);
-const [canceled, setCanceled] = useState(0);
-const [status, setStatus] = useState('On Request')
-
-const handleClick = () => {
-    setApprove(1)
-    setCanceled(2)
-    setStatus('Approved')
+const detail = () => {
+    return <Button color="amber" style={{width: 60, fontSize: 9, marginInlineEnd: 1}} size="sm" className="px-0 rounded-full shadow-none" onClick={handleNavigate}>Detail</Button>
 }
 
-const handleCancel = () => {
-    setCanceled(1)
-    setApprove(2)
-    setStatus('Cancelled')
-}
-
-function approval() {
-    if (approve == 0) {
-        return <Button color="green" style={{width: 80, fontSize: 8, marginInlineEnd: 1}} size="sm" className="rounded-full" onClick={handleClick}>Approve</Button>
-    } 
-    if (approve == 2) {
-        return <Button color="grey" style={{width: 80, fontSize: 8, marginInlineEnd: 1}} size="sm" className="rounded-full" disabled={true}>-</Button>
-    }else {
-        return <Button color="green" style={{width: 80, fontSize: 8, marginInlineEnd: 1}} size="sm" className="rounded-full" disabled={true}>Approved</Button>
-    }
-}
-
-function cancel() {
-    if (canceled == 0) {
-        return <Button color="red" style={{width: 80, fontSize: 8, marginInlineEnd: 1}} size="sm" className="rounded-full" onClick={handleCancel}>Cancel</Button>
-    } 
-    if (canceled == 2) {
-        return <Button color="grey" style={{width: 80, fontSize: 8, marginInlineEnd: 1}} size="sm" className="rounded-full" disabled={true}>-</Button>
-    }else {
-        return <Button color="red" style={{width: 80, fontSize: 8, marginInlineEnd: 1}} size="sm" className="rounded-full" disabled={true}>Cancelled</Button>
-    }
-}
-
-const data = [
+const data = isi.map((pm) => (
     {
-        id: 666,
-        tiket: 666,
-        pic: 'Anton Szandor LaVey',
-        namaRuang: 'Ruang Collaboration',
-        tanggalJamMulai: '24/10/2023, 09:00',
-        status: status,
-        aksi: [approval(), cancel()],
+        tiket: pm.ticket,
+        nama: pm.namaPIC,
+        rating: 
+            <div style={{ fontSize: '15px' }}>
+                <ReviewTable />
+            </div>,
+        aksi: [detail()],
     }
-]
+))
 
 const { currentTheme } = useThemeProvider();
 
     return (
-        <DataTable
+        <DataTable 
             pagination
             fixedHeader
             fixedHeaderScrollHeight="300px"
