@@ -19,7 +19,7 @@ useEffect(() => {
         "idReview": item.idReview,
         "idPeminjaman": item.idPeminjaman,
         "kenyamanan": item.kenyamanan,
-        "kelengkapan": item.kelengkapan,
+        "fungsional": item.fungsional,
         "rating": item.rating,
         "saran": item.saran
       }))
@@ -65,7 +65,7 @@ useEffect(() => {
       },
       {
         label: 'Memuaskan',
-        data: [1],
+        data: [0],
         backgroundColor: tailwindConfig().theme.colors.green[400],
         hoverBackgroundColor: tailwindConfig().theme.colors.green[500],
         barPercentage: 1,
@@ -73,12 +73,11 @@ useEffect(() => {
       },
       {
         label: 'Sangat Memuaskan',
-        data: [smb],
+        data: [smb + 1],
         backgroundColor: tailwindConfig().theme.colors.cyan[300],
         hoverBackgroundColor: tailwindConfig().theme.colors.cyan[500],
         barPercentage: 1,
         categoryPercentage: 1,
-        
       },
     ],
   };

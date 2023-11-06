@@ -21,7 +21,7 @@ useEffect(() => {
             "ticket": item.ticket,
             "namaPIC": item.namaPIC,
             "kenyamanan": item.kenyamanan,
-            "kelengkapan": item.kelengkapan,
+            "fungsional": item.fungsional,
             "rating": item.rating,
             "saran": item.saran
         }))

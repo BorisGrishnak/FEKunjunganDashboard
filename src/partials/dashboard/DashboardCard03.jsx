@@ -22,7 +22,7 @@ useEffect(() => {
           "idReview": item.idReview,
           "idPeminjaman": item.idPeminjaman,
           "kenyamanan": item.kenyamanan,
-          "kelengkapan": item.kelengkapan,
+          "fungsional": item.fungsional,
           "rating": item.rating,
           "saran": item.saran
         }))
