@@ -1,6 +1,7 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import moment from 'moment/moment'
 import { Link } from 'react-router-dom';
-import LineChart from '../../charts/LineChart01';
 import Icon from '../../images/icon-04.svg';
 import EditMenu from '../../components/DropdownEditMenu';
 
@@ -9,42 +10,30 @@ import { tailwindConfig, hexToRGB } from '../../utils/Utils';
 
 function DashboardCardTodaySes() {
 
-  const chartData = {
-    labels: [
-      '12-01-2020', '01-01-2021', '02-01-2021',
-      '03-01-2021', '04-01-2021', '05-01-2021',
-      '06-01-2021', '07-01-2021', '08-01-2021',
-      '09-01-2021', '10-01-2021', '11-01-2021',
-      '12-01-2021', '01-01-2022', '02-01-2022',
-      '03-01-2022', '04-01-2022', '05-01-2022',
-      '06-01-2022', '07-01-2022', '08-01-2022',
-      '09-01-2022', '10-01-2022', '11-01-2022',
-      '12-01-2022', '01-01-2023',
-    ],
-    datasets: [
-      // Indigo line
-      {
-        data: [
-          622, 622, 426, 471, 365, 365, 238,
-          324, 288, 206, 324, 324, 500, 409,
-          409, 273, 232, 273, 500, 570, 767,
-          808, 685, 767, 685, 685,
-        ],
-        fill: true,
-        backgroundColor: `rgba(${hexToRGB(tailwindConfig().theme.colors.red[500])}, 0.08)`,
-        borderColor: tailwindConfig().theme.colors.red[500],
-        borderWidth: 2,
-        tension: 0,
-        pointRadius: 0,
-        pointHoverRadius: 3,
-          pointBackgroundColor: tailwindConfig().theme.colors.red[500],
-          pointHoverBackgroundColor: tailwindConfig().theme.colors.red[500],
-          pointBorderWidth: 0,
-          pointHoverBorderWidth: 0,          
-          clip: 20,
-      },
-    ],
-  };
+const [isi, setIsi] = useState([]);
+
+useEffect(() => {
+    const fetchData = () =>{
+        axios.get('https://localhost:7286/api/Peminjaman').then(postData => {
+
+     // reshaping the array
+     const customHeadings = postData.data.map(item=>({
+        "idPeminjaman": item.idPeminjaman,
+        "ticket": item.ticket,
+        "namaPIC": item.namaPIC,
+        "email": item.email,
+        "noHp": item.noHp,
+        "startTime": item.startTime,
+        "now": moment(item.startTime).format('DD-MM-yyyy')
+     }))
+     setIsi(customHeadings)
+    //   console.log(customHeadings);
+     })
+    }
+    fetchData()
+}, [])
+
+const todaySes = isi.filter((d) => d.now == moment().format('DD-MM-yyyy')).length
 
   return (
     <div className="flex flex-col col-span-full sm:col-span-3 xl:col-span-3 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
@@ -74,7 +63,7 @@ function DashboardCardTodaySes() {
         <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-4">Sesi Hari Ini</h2>
         {/* <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase mb-1">Sales</div> */}
         <div className="flex items-start">
-          <div className="text-6xl font-bold text-slate-800 dark:text-slate-100 mr-2">1</div>
+          <div className="text-6xl font-bold text-slate-800 dark:text-slate-100 mr-2">{todaySes}</div>
           <div className="text-sm font-semibold text-white px-1.5 bg-red-500 rounded-full">Sesi</div>
           {/* <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase mb-1">Sesi</div> */}
         </div>

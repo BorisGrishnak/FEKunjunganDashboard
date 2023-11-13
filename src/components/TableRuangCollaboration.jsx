@@ -6,27 +6,26 @@ import LoadingSpinner from './LoadingSpinner';
 
 export default function TableRuangCollaboration() {
 
-// const [isi, setIsi] = useState([]);
+const [isi, setIsi] = useState([]);
 
-// useEffect(() => {
-//     const fetchData = () =>{
-//      axios.get('https://localhost:7225/api/Tamu').then(postData => {
+useEffect(() => {
+    const fetchData = () =>{
+     axios.get('https://localhost:7055/api/Member').then(postData => {
 
-//      // reshaping the array
-//      const customHeadings = postData.data.map(item=>({
-//        "idTamu": item.idTamu,
-//        "namaTamu": item.namaTamu,
-//        "emailTamu": item.emailTamu,
-//        "kepentingan": item.kepentingan,
-//      }))
-//      setIsi(customHeadings)
-//     //   console.log(customHeadings);
-//      })
-//     }
-//     fetchData()
-// }, [])  
+     // reshaping the array
+     const customHeadings = postData.data.map(item=>({
+        "idMember": item.idMember,
+        "namaMember": item.namaMember,
+        "idPaket": item.idPaket
+     }))
+     setIsi(customHeadings)
+    //   console.log(customHeadings);
+     })
+    }
+    fetchData()
+}, [])  
 
-// const wee = isi.map((png) => png);
+const wee = isi.map((png) => png);
 // console.log(wee);
 
 const columns = [

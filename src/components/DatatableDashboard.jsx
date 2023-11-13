@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import moment from 'moment/moment'
 import DataTable from 'react-data-table-component';
 import { useThemeProvider } from '../utils/ThemeContext';
 import LoadingSpinner from './LoadingSpinner';
@@ -14,9 +15,12 @@ useEffect(() => {
 
      // reshaping the array
      const customHeadings = postData.data.map(item=>({
+        "idPeminjaman": item.idPeminjaman,
+        "ticket": item.ticket,
         "namaPIC": item.namaPIC,
         "email": item.email,
         "noHp": item.noHp,
+        "startTime": item.startTime,
      }))
      setIsi(customHeadings)
     //   console.log(customHeadings);
@@ -25,10 +29,23 @@ useEffect(() => {
     fetchData()
 }, [])  
 
-const wee = isi.map((png) => png);
-// console.log(wee);
+const wee = isi.map((pm) => (
+    {
+        id: pm.idPeminjaman,
+        ticket: pm.ticket,
+        namaPIC: pm.namaPIC,
+        email: pm.email,
+        noHp: pm.noHp,
+        startTime: pm.startTime,
+        now: moment(pm.startTime).format('DD-MM-yyyy'),
+    }
+)).filter((d) => d.now == moment().format('DD-MM-yyyy'))
 
 const columns = [
+    {
+        name: 'Tiket',
+        selector: row => row.ticket,
+    },
     {
         name: 'Nama PIC',
         selector: row => row.namaPIC,

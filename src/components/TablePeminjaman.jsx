@@ -9,8 +9,8 @@ import LoadingSpinner from './LoadingSpinner';
 
 export default function TablePeminjaman() {
 
-const [isi, setIsi] = useState([]);
 const [status, setStatus] = useState([])
+const [isi, setIsi] = useState([]);
 
 useEffect(() => {
     const interval = setInterval(() => {
@@ -33,13 +33,37 @@ useEffect(() => {
            "status": item.status,
         }))
         setIsi(customHeadings)
-         setStatus(customHeadings.map((ch) => ch.status));
         })
        }
        fetchData()
     }, 500);
     return () => clearInterval(interval);
      }, [])
+
+useEffect(() => {
+    const interval = setInterval(() => {
+    const fetchData = () =>{
+        axios.get('https://localhost:7286/api/Review').then(postData => {
+
+        // reshaping the array
+        const customHeadings = postData.data.map(item=>({
+            "idReview": item.idReview,
+            "idPeminjaman": item.idPeminjaman,
+            "ticket": item.ticket,
+            "namaPIC": item.namaPIC,
+            "kenyamanan": item.kenyamanan,
+            "fungsional": item.fungsional,
+            "rating": item.rating,
+            "saran": item.saran
+        }))
+        setReview(customHeadings)
+         // console.log(customHeadings);
+        })
+    }
+fetchData()
+}, 500);
+return () => clearInterval(interval);
+ }, [])
 
 const navigate = useNavigate();
 
@@ -126,7 +150,7 @@ const data = isi.map((pm) => (
             <Button color="amber" style={{width: 60, fontSize: 9, marginInlineEnd: 1}} size="sm" className="px-0 rounded-full shadow-none" onClick={handleNavigate} id={pm.idPeminjaman}>Detail</Button>
         ],
     }
-))
+)).filter((d) => d.status !== "Done")
 
 const [pending, setPending] = useState(true);
 

@@ -5,36 +5,46 @@ import { useNavigate } from 'react-router-dom';
 import { useThemeProvider } from '../utils/ThemeContext';
 import { Button } from "@material-tailwind/react";
 import ReviewTable from '../partials/review/ReviewTable'
+import LoadingSpinner from './LoadingSpinner';
      
 export default function TableReview() {
 
 const [isi, setIsi] = useState([]);
+const navigate = useNavigate();
 
 useEffect(() => {
-    const fetchData = () =>{
-        axios.get('https://localhost:7286/api/Review').then(postData => {
+    const interval = setInterval(() => {
+        const fetchData = () =>{
+            axios.get('https://localhost:7286/api/Review').then(postData => {
 
-        // reshaping the array
-        const customHeadings = postData.data.map(item=>({
-            "idReview": item.idReview,
-            "idPeminjaman": item.idPeminjaman,
-            "ticket": item.ticket,
-            "namaPIC": item.namaPIC,
-            "kenyamanan": item.kenyamanan,
-            "fungsional": item.fungsional,
-            "rating": item.rating,
-            "saran": item.saran
-        }))
-        setIsi(customHeadings)
-         // console.log(customHeadings);
-        })
-       }
-       fetchData()
-     }, [])
+            // reshaping the array
+            const customHeadings = postData.data.map(item=>({
+                "idReview": item.idReview,
+                "idPeminjaman": item.idPeminjaman,
+                "ticket": item.ticket,
+                "namaPIC": item.namaPIC,
+                "kenyamanan": item.kenyamanan,
+                "fungsional": item.fungsional,
+                "rating": item.rating,
+                "saran": item.saran
+            }))
+            setIsi(customHeadings)
+             // console.log(customHeadings);
+            })
+           }
+           fetchData()
+    }, 100);
+return () => clearInterval(interval);
+}, [])
 
 function handleNavigate(e) {
     e.preventDefault()
-    navigate('/detailreview')
+    navigate('/detailreview',
+    {
+        state:{
+          id: e.target.id
+        }
+    })
 }
 
 const columns = [
@@ -56,23 +66,29 @@ const columns = [
     },
 ];
 
-const detail = () => {
-    return <Button color="amber" style={{width: 60, fontSize: 9, marginInlineEnd: 1}} size="sm" className="px-0 rounded-full shadow-none" onClick={handleNavigate}>Detail</Button>
-}
-
-const data = isi.map((pm) => (
+const data = isi.map((pm, index) => (
     {
+        key: index,
         tiket: pm.ticket,
         nama: pm.namaPIC,
         rating: 
             <div style={{ fontSize: '15px' }}>
-                <ReviewTable />
+                <ReviewTable value={pm.rating} />
             </div>,
-        aksi: [detail()],
+        aksi: <Button color="amber" style={{width: 60, fontSize: 9, marginInlineEnd: 1}} size="sm" className="px-0 rounded-full shadow-none" onClick={handleNavigate} id={pm.idReview}>Detail</Button>,
     }
 ))
 
 const { currentTheme } = useThemeProvider();
+
+const [pending, setPending] = useState(true);
+
+useEffect(() => {
+    const timeout = setTimeout(() => {
+        setPending(false);
+    }, 600);
+    return () => clearTimeout(timeout);
+}, []);
 
     return (
         <DataTable 
@@ -80,8 +96,12 @@ const { currentTheme } = useThemeProvider();
             fixedHeader
             fixedHeaderScrollHeight="300px"
             responsive
+            highlightOnHover
+            keyField={data.id}
             columns={columns}
             data={data}
+            progressPending={pending}
+            progressComponent={<LoadingSpinner />}
             theme={currentTheme}
         />
     );

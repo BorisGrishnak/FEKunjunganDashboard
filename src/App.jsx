@@ -20,6 +20,8 @@ import DetailPeminjaman from './pages/peminjaman/DetailPeminjaman';
 import Review from './pages/Review';
 import DetailReview from './pages/DetailReview';
 import Calendar from './pages/Calendar';
+import Report from './pages/Report';
+import { ThemeProvider } from "@material-tailwind/react";
 
 function App() {
 
@@ -33,6 +35,7 @@ function App() {
 
   return (
     <div style={{ height: "95vh" }}>
+      <ThemeProvider>
       <Routes>
         <Route exact path="/" element={<Dashboard />} />
         <Route exact path="/ruangan/collaboration" element={<Collaboration />} />
@@ -44,7 +47,9 @@ function App() {
         <Route exact path="/detailpeminjaman" element={<DetailPeminjaman />} />
         <Route exact path="/review" element={<Review />} />
         <Route exact path="/detailreview" element={<DetailReview />} />
+        <Route exact path="/report" element={<Report />} />
       </Routes> 
+      </ThemeProvider>
     </div>
   );
 }

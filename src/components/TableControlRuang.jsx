@@ -90,7 +90,7 @@ const data = isi.map((d) => (
         dipesan: d.namaPIC,
         aksi: <Button color="red" size="sm" className="rounded-full" onClick={handleSwitch} id={d.idPeminjaman}>Switch</Button>
     }
-))
+)).filter((d) => d.status !== "Done" && d.status !== "On Request")
 
 const [pending, setPending] = useState(true);
 

@@ -8,7 +8,7 @@ const LoadingSpinner = props => (
     <div id="spinner" style={{ top: "50%" }}>
       <i
         className="fa fa-spinner fa-pulse fa-3x fa-fw"
-        style={{ fontSize: 36, color: "#FDD60C" }}
+        style={{ fontSize: 48, color: "#FDD60C" }}
       />
     </div>
   </div>

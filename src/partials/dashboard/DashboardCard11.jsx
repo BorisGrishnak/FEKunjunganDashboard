@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import BarChart from '../../charts/BarChart03';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 // Import utilities
 import { tailwindConfig } from '../../utils/Utils';
@@ -9,6 +10,15 @@ function DashboardCard11() {
 
 const [isi, setIsi] = useState([]);
 const [smb, setSmb] = useState([]);
+const [showComponent, setShowComponent] = useState(false); 
+
+  useEffect(() => { 
+    const timeout = setTimeout(() => { 
+      setShowComponent(true); 
+    }, 1000); 
+ 
+    return () => clearTimeout(timeout); 
+  }, []); 
 
 useEffect(() => {
   const interval = setInterval(() => {
@@ -73,7 +83,7 @@ useEffect(() => {
       },
       {
         label: 'Sangat Memuaskan',
-        data: [smb + 1],
+        data: [smb],
         backgroundColor: tailwindConfig().theme.colors.cyan[300],
         hoverBackgroundColor: tailwindConfig().theme.colors.cyan[500],
         barPercentage: 1,
@@ -82,21 +92,43 @@ useEffect(() => {
     ],
   };
 
+  function bChart() {
+    if (showComponent == true) {
+      return (
+      <BarChart data={chartData} width={595} height={48} />
+      )
+    } else {
+      return (
+      <div className="text-center pt-14 pb-10">
+        <LoadingSpinner />
+      </div> 
+      )
+    }
+  }
+
+  function jums() {
+    if (showComponent == true) {
+      return (
+        <div className="flex items-start">
+          <div className="text-3xl font-bold text-slate-800 dark:text-slate-100 mr-2">{jumRev}</div>
+          <div className="text-sm font-semibold text-white px-1.5 bg-green-500 rounded-full">Rating</div>
+        </div>
+      )
+    }
+  }
+
   return (
     <div className="col-span-full sm:col-span-6 xl:col-span-8 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
       <header className="px-5 py-4 border-b border-slate-100 dark:border-slate-700">
         <h2 className="font-semibold text-slate-800 dark:text-slate-100">Rating Tamu</h2>
       </header>
       <div className="px-5 py-3">
-        <div className="flex items-start">
-          <div className="text-3xl font-bold text-slate-800 dark:text-slate-100 mr-2">{jumRev}</div>
-          <div className="text-sm font-semibold text-white px-1.5 bg-green-500 rounded-full">Rating</div>
-        </div>
+        {jums()}
       </div>
       {/* Chart built with Chart.js 3 */}
       <div className="grow">
         {/* Change the height attribute to adjust the chart height */}
-        <BarChart data={chartData} width={595} height={48} />
+        {bChart()}
       </div>
     </div>
   );

@@ -2,8 +2,8 @@ import React from 'react';
 import { FaStar } from 'react-icons/fa';
 
 
-function ReviewTable({ value, onRatingChange }) {
-  const stars = [1, 2, 3, 4, 5];
+function ReviewTable({ value, onRatingChange, props }) {
+  const stars = [props.stars];
      
   return (
     <div className="star-rating" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

@@ -37,7 +37,7 @@ function DetailPeminjamanCard01() {
             <tbody>
                 <tr>
                     <th className='py-5 border-b border-blue-gray-50'>Tiket:</th>
-                    <td className='py-5 border-b border-blue-gray-50'>{isi.idPeminjaman}</td>
+                    <td className='py-5 border-b border-blue-gray-50'>{isi.ticket}</td>
                 </tr>
                 <tr>
                     <th className='py-5 border-b border-blue-gray-50'>Nama PIC:</th>
