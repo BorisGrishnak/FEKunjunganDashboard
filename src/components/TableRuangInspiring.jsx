@@ -4,7 +4,7 @@ import DataTable, { createTheme } from 'react-data-table-component';
 import { useThemeProvider } from '../utils/ThemeContext';
 import LoadingSpinner from './LoadingSpinner';
 
-export default function TableRuangCollaboration() {
+export default function TableRuangInspiring() {
 
 const [isi, setIsi] = useState([]);
 
@@ -28,7 +28,7 @@ useEffect(() => {
     fetchData()
 }, [])  
 
-const wee = isi.map((png) => png).filter(rg => rg.idRuangan == 1 && rg.status !== "Done");
+const wee = isi.map((png) => png).filter(rg => rg.idRuangan == 4 && rg.status !== "Done");
 // console.log(wee);
 
 const columns = [

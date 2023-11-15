@@ -15,14 +15,14 @@ const navigate = useNavigate();
 useEffect(() => {
     const interval = setInterval(() => {
         const fetchData = () =>{
-            axios.get('https://localhost:7286/api/Review').then(postData => {
+            axios.get('https://localhost:7157/api/Review').then(postData => {
 
             // reshaping the array
             const customHeadings = postData.data.map(item=>({
                 "idReview": item.idReview,
-                "idPeminjaman": item.idPeminjaman,
-                "ticket": item.ticket,
-                "namaPIC": item.namaPIC,
+                "idPeminjaman": item.peminjaman.idPeminjaman,
+                "ticket": item.peminjaman.tiket,
+                "namaPIC": item.peminjaman.namaPIC,
                 "kenyamanan": item.kenyamanan,
                 "fungsional": item.fungsional,
                 "rating": item.rating,

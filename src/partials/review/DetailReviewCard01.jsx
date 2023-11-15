@@ -5,6 +5,7 @@ import ReviewTable from '../../partials/review/ReviewTable'
 import axios from 'axios';
 import moment from "moment";
 import { FaArrowCircleLeft } from 'react-icons/fa';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 import "../../css/review.css"
 
@@ -19,7 +20,7 @@ function DetailReviewCard01() {
   
   useEffect(() => {
     const fetchData = () =>{
-        axios.get(`https://localhost:7286/api/Review/${location.state.id}`).then(
+        axios.get(`https://localhost:7157/api/Review/${location.state.id}`).then(
           res => {
             // console.log(res)
             setIsi(res.data)
@@ -35,31 +36,29 @@ function DetailReviewCard01() {
   
     // const history = useNavigate()
 
-  return (
-    <>
-    <div className='back-review'>
-      <button onClick={() => history(-1)}>
-        <FaArrowCircleLeft size={30} /> {/* Ganti 30 dengan ukuran yang Anda inginkan */}
-      </button>
-    </div>
-    <div className="flex flex-col col-span-full sm:col-span-6 md:col-span-12 xl:col-span-12 pb-7 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
-      
-      <div className="px-5 pt-5">
-        <header className="flex justify-between items-start mb-2">
-        </header>
-        {/* <h2 className="text-lg text-center font-semibold text-slate-800 dark:text-slate-100 mb-4">Denah Letak Ruangan</h2> */}
-        {/* <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase mb-1">Sales</div> */}
-        {/* <div className="flex"> */}
-          {/* <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase mb-1">Orang</div> */}
+
+    const [showComponent, setShowComponent] = useState(false); 
+
+     useEffect(() => { 
+       const timeout = setTimeout(() => { 
+         setShowComponent(true); 
+       }, 500); 
+    
+       return () => clearTimeout(timeout); 
+     }, []);
+
+     function bPend() {
+      if (showComponent == true) {
+        return (
           <table className='w-full min-w-max table-auto text-left'>
             <tbody>
                 <tr>
                     <th className='py-5 border-b border-blue-gray-50'>Tiket:</th>
-                    <td className='py-5 border-b border-blue-gray-50'>{isi.ticket}</td>
+                    <td className='py-5 border-b border-blue-gray-50'>{isi.peminjaman.tiket}</td>
                 </tr>
                 <tr>
                     <th className='py-5 border-b border-blue-gray-50'>Nama:</th>
-                    <td className='py-5 border-b border-blue-gray-50'>{isi.namaPIC}</td>
+                    <td className='py-5 border-b border-blue-gray-50'>{isi.peminjaman.namaPIC}</td>
                 </tr>
                 <tr>
                 <th className='py-5 border-b border-blue-gray-50' colSpan="2" style={centeredTextStyles}>Rating Ruangan</th>
@@ -89,6 +88,33 @@ function DetailReviewCard01() {
                 </tr>
             </tbody>
           </table>
+        )
+      } else {
+        return (
+        <div className="text-center pt-14 pb-10">
+          <LoadingSpinner />
+        </div> 
+        )
+      }
+    }
+
+  return (
+    <>
+    <div className='back-review'>
+      <button onClick={() => history(-1)}>
+        <FaArrowCircleLeft size={30} /> {/* Ganti 30 dengan ukuran yang Anda inginkan */}
+      </button>
+    </div>
+    <div className="flex flex-col col-span-full sm:col-span-6 md:col-span-12 xl:col-span-12 pb-7 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
+      
+      <div className="px-5 pt-5">
+        <header className="flex justify-between items-start mb-2">
+        </header>
+        {/* <h2 className="text-lg text-center font-semibold text-slate-800 dark:text-slate-100 mb-4">Denah Letak Ruangan</h2> */}
+        {/* <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase mb-1">Sales</div> */}
+        {/* <div className="flex"> */}
+          {/* <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase mb-1">Orang</div> */}
+          {bPend()}
       </div>
     </div>
     </>

@@ -15,16 +15,17 @@ const [isi, setIsi] = useState([]);
 useEffect(() => {
     const interval = setInterval(() => {
     const fetchData = () =>{
-        axios.get('https://localhost:7286/api/Peminjaman').then(postData => {
+        axios.get('https://localhost:7157/api/Peminjaman')
+        .then(postData => {
 
         // reshaping the array
         const customHeadings = postData.data.map(item=>({
            "idPeminjaman": item.idPeminjaman,
            "idRuangan": item.idRuangan,
-           "ticket": item.ticket,
+           "ticket": item.tiket,
            "namaPIC": item.namaPIC,
            "email": item.email,
-           "noHp": item.noHp,
+           "noHp": item.noHP,
            "jumlahTamu": item.jumlahTamu,
            "startTime": item.startTime,
            "endTime": item.endTime,
@@ -39,31 +40,6 @@ useEffect(() => {
     }, 500);
     return () => clearInterval(interval);
      }, [])
-
-useEffect(() => {
-    const interval = setInterval(() => {
-    const fetchData = () =>{
-        axios.get('https://localhost:7286/api/Review').then(postData => {
-
-        // reshaping the array
-        const customHeadings = postData.data.map(item=>({
-            "idReview": item.idReview,
-            "idPeminjaman": item.idPeminjaman,
-            "ticket": item.ticket,
-            "namaPIC": item.namaPIC,
-            "kenyamanan": item.kenyamanan,
-            "fungsional": item.fungsional,
-            "rating": item.rating,
-            "saran": item.saran
-        }))
-        setReview(customHeadings)
-         // console.log(customHeadings);
-        })
-    }
-fetchData()
-}, 500);
-return () => clearInterval(interval);
- }, [])
 
 const navigate = useNavigate();
 
@@ -87,7 +63,7 @@ const columns = [
 ];
 
 const handleClick = (e) => {
-    axios.patch(`https://localhost:7286/api/Peminjaman/Approval/${e.target.id}`,
+    axios.patch(`https://localhost:7157/api/Peminjaman/Approval/${e.target.id}`,
         { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'} }   
             ).then(() => {
                 Swal.fire({  
@@ -107,7 +83,7 @@ const handleClick = (e) => {
 }
 
 const handleCancel = (e) => {
-    axios.patch(`https://localhost:7286/api/Peminjaman/Cancel/${e.target.id}`,
+    axios.patch(`https://localhost:7157/api/Peminjaman/Cancel/${e.target.id}`,
         { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'} }   
             ).then(() => {
                 Swal.fire({  

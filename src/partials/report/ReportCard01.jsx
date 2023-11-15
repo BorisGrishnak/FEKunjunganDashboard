@@ -28,38 +28,38 @@ function ReportCard01() {
 useEffect(() => {
     const interval = setInterval(() => {
     const fetchData = () =>{
-        axios.get('https://localhost:7286/api/Peminjaman').then(postData => {
+        axios.get('https://localhost:7157/api/Peminjaman').then(postData => {
 
         // reshaping the array
         const customHeadings = postData.data.map(item=>({
            "idPeminjaman": item.idPeminjaman,
            "idRuangan": item.idRuangan,
-           "ticket": item.ticket,
+           "ticket": item.tiket,
            "namaPIC": item.namaPIC,
-           "namaRuangan": item.namaRuangan,
+           "namaRuangan": item.ruangan.namaRuangan,
            "email": item.email,
-           "noHp": item.noHp,
+           "noHp": item.noHP,
            "jumlahTamu": item.jumlahTamu,
            "startTime": item.startTime,
            "endTime": item.endTime,
-           "keperluan": item.keperluan,
-           "detailKeperluan": item.detailKeperluan,
+           "keperluan": item.kepentingan,
+           "detailKeperluan": item.detailKepentingan,
            "status": item.status,
         }))
         const xlsxData = postData.data.map(item=>({
-          "Id Peminjaman": item.idPeminjaman,
-           "Id Ruangan": item.idRuangan,
-           "Ticket": item.ticket,
+           "IdPeminjaman": item.idPeminjaman,
+           "IdRuangan": item.idRuangan,
+           "Ticket": item.tiket,
            "Nama PIC": item.namaPIC,
-           "Nama Ruangan": item.namaRuangan,
+           "Nama Ruangan": item.ruangan.namaRuangan,
            "Email": item.email,
-           "No Hp": item.noHp,
+           "No Hp": item.noHP,
            "Jumlah Tamu": item.jumlahTamu,
            "Tanggal": moment(item.startTime).format('DD MMM yyyy'),
            "Waktu Mulai": moment(item.startTime).format('LT'),
            "Waktu Selesai": moment(item.endTime).format('LT'),
-           "Keperluan": item.keperluan,
-           "Detail Keperluan": item.detailKeperluan,
+           "Keperluan": item.kepentingan,
+           "detailKeperluan": item.detailKepentingan,
            "Status": item.status,
            "tanggalMent": item.startTime,
         }))
@@ -71,7 +71,7 @@ useEffect(() => {
     }, 500);
     return () => clearInterval(interval);
      }, [])
-    
+    // console.log(isi);
     const data = isi.map((pm) => (
       {
           id: pm.idPeminjaman,

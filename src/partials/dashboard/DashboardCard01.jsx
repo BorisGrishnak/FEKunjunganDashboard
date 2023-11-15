@@ -14,7 +14,7 @@ function DashboardCard01() {
 
   useEffect(() => {
     const fetchData = () =>{
-      axios.get('https://localhost:7286/api/Peminjaman').then(postData => {
+      axios.get('https://localhost:7157/api/Peminjaman').then(postData => {
 
      // reshaping the array
       const customHeadings = postData.data.map(item=>({

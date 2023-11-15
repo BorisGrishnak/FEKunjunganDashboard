@@ -9,10 +9,10 @@ const [isi, setIsi] = useState<any[]>([]);
 
 useEffect(() => {
     const fetchData = () =>{
-        axios.get('https://localhost:7286/api/Peminjaman').then(postData => {
+        axios.get('https://localhost:7157/api/Peminjaman').then(postData => {
 
         // reshaping the array
-        const customHeadings = postData.data.map((item: { idPeminjaman: "item.idPeminjaman"; idRuangan: any; namaPIC: any; email: any; noHp: any; jumlahTamu: any; startTime: any; endTime: any; keperluan: any; status: any; })=>({
+        const customHeadings = postData.data.map((item: { idPeminjaman: "item.idPeminjaman"; idRuangan: any; namaPIC: any; email: any; noHp: any; jumlahTamu: any; startTime: any; endTime: any; kepentingan: any; status: any; })=>({
             "idPeminjaman": item.idPeminjaman,
             "idRuangan": item.idRuangan,
             "namaPIC": item.namaPIC,
@@ -21,7 +21,7 @@ useEffect(() => {
             "jumlahTamu": item.jumlahTamu,
             "startTime": item.startTime,
             "endTime": item.endTime,
-            "keperluan": item.keperluan,
+            "keperluan": item.kepentingan,
             "status": item.status,
         }))
         setIsi(customHeadings)

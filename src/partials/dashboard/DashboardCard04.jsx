@@ -33,12 +33,12 @@ function DashboardCard04() {
   useEffect(() => {
     const interval = setInterval(() => {
       const fetchData = () =>{
-          axios.get('https://localhost:7286/api/Peminjaman').then(postData => {
+          axios.get('https://localhost:7157/api/Peminjaman').then(postData => {
   
        // reshaping the array
        const customHeadings = postData.data.map(item=>({
           "idPeminjaman": item.idPeminjaman,
-          "ticket": item.ticket,
+          "ticket": item.tiket,
           "namaPIC": item.namaPIC,
           "email": item.email,
           "noHp": item.noHp,
@@ -68,7 +68,7 @@ function DashboardCard04() {
     return () => clearInterval(interval);
      }, [isi])
 
-    //  console.log(isi);
+    //  console.log(kemaren);
   
   const mingguLalu = moment().subtract(7, 'days').format('DD-MM-YY')
   const enamLalu = moment().subtract(6, 'days').format('DD-MM-YY')

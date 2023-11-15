@@ -11,15 +11,15 @@ const [isi, setIsi] = useState([]);
 
 useEffect(() => {
     const fetchData = () =>{
-        axios.get('https://localhost:7286/api/Peminjaman').then(postData => {
+        axios.get('https://localhost:7157/api/Peminjaman').then(postData => {
 
      // reshaping the array
      const customHeadings = postData.data.map(item=>({
         "idPeminjaman": item.idPeminjaman,
-        "ticket": item.ticket,
+        "ticket": item.tiket,
         "namaPIC": item.namaPIC,
         "email": item.email,
-        "noHp": item.noHp,
+        "noHp": item.noHP,
         "startTime": item.startTime,
      }))
      setIsi(customHeadings)

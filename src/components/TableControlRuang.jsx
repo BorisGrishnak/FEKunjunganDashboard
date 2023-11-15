@@ -13,13 +13,13 @@ const [isi, setIsi] = useState([]);
 useEffect(() => {
     const interval = setInterval(() => {
     const fetchData = () =>{
-     axios.get('https://localhost:7286/api/Peminjaman').then(postData => {
+     axios.get('https://localhost:7157/api/Peminjaman').then(postData => {
   
      // reshaping the array
      const customHeadings = postData.data.map(item=>({
         "idPeminjaman": item.idPeminjaman,
         "idRuangan": item.idRuangan,
-        "namaRuangan": item.namaRuangan,
+        "namaRuangan": item.ruangan.namaRuangan,
         "namaPIC": item.namaPIC,
         "status":item.status
      }))
@@ -33,7 +33,7 @@ useEffect(() => {
   }, [])
 
   const handleSwitch = (e) => {
-    axios.patch(`https://localhost:7286/api/Peminjaman/Switch/${e.target.id}`,
+    axios.patch(`https://localhost:7157/api/Peminjaman/Switch/${e.target.id}`,
         { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'} }   
             ).then((response) => {
             Swal.fire({  

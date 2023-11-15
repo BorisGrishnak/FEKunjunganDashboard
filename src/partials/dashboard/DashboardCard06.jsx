@@ -24,21 +24,11 @@ function DashboardCard06() {
   useEffect(() => {
     const interval = setInterval(() => {
     const fetchData = () =>{
-      axios.get('https://localhost:7286/api/Peminjaman').then(postData => {
+      axios.get('https://localhost:7157/api/Peminjaman').then(postData => {
       // reshaping the array
       const customHeadings = postData.data.map(item=>({
          "idPeminjaman": item.idPeminjaman,
          "idRuangan": item.idRuangan,
-         "ticket": item.ticket,
-         "namaPIC": item.namaPIC,
-         "email": item.email,
-         "noHp": item.noHp,
-         "jumlahTamu": item.jumlahTamu,
-         "startTime": item.startTime,
-         "endTime": item.endTime,
-         "keperluan": item.keperluan,
-         "detailKeperluan": item.detailKeperluan,
-         "status": item.status,
       }))
       setPeminjaman(customHeadings)
       })
@@ -50,18 +40,12 @@ function DashboardCard06() {
 
 useEffect(() => {
   const fetchData = () =>{
-    axios.get('https://localhost:7286/api/Review').then(postData => {
+    axios.get('https://localhost:7157/api/Review').then(postData => {
     
     // reshaping the array
     const customHeadings = postData.data.map(item=>({
         "idReview": item.idReview,
         "idPeminjaman": item.idPeminjaman,
-        "ticket": item.ticket,
-        "namaPIC": item.namaPIC,
-        "kenyamanan": item.kenyamanan,
-        "fungsional": item.fungsional,
-        "rating": item.rating,
-        "saran": item.saran
     }))
     setReview(customHeadings)
      // console.log(customHeadings);

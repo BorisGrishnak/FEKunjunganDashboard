@@ -10,6 +10,10 @@ function DashboardCard11() {
 
 const [isi, setIsi] = useState([]);
 const [smb, setSmb] = useState([]);
+const [mb, setMb] = useState([]);
+const [b, setB] = useState([]);
+const [br, setBr] = useState([]);
+const [sb, setSb] = useState([]);
 const [showComponent, setShowComponent] = useState(false); 
 
   useEffect(() => { 
@@ -23,7 +27,7 @@ const [showComponent, setShowComponent] = useState(false);
 useEffect(() => {
   const interval = setInterval(() => {
     const fetchData = () =>{
-      axios.get('https://localhost:7286/api/Review').then(postData => {
+      axios.get('https://localhost:7157/api/Review').then(postData => {
       // reshaping the array
       const customHeadings = postData.data.map(item=>({
         "idReview": item.idReview,
@@ -34,9 +38,21 @@ useEffect(() => {
         "saran": item.saran
       }))
       setIsi(customHeadings)
-      const pe = customHeadings.filter((dt => dt.rating = 5))
+      const pe = customHeadings.filter((dt => dt.rating == 5))
+      const p4 = customHeadings.filter((dt => dt.rating == 4))
+      const p3 = customHeadings.filter((dt => dt.rating == 3))
+      const p2 = customHeadings.filter((dt => dt.rating == 2))
+      const p1 = customHeadings.filter((dt => dt.rating == 1))
       const sm = pe.length;
+      const m = p4.length;
+      const b = p3.length;
+      const br = p2.length;
+      const sb = p1.length;
       setSmb(sm)
+      setMb(m)
+      setB(b)
+      setBr(br)
+      setSb(sb)
       })
      }
      fetchData()
@@ -51,7 +67,7 @@ useEffect(() => {
     datasets: [
       {
         label: 'Sangat Buruk',
-        data: [0],
+        data: [sb],
         backgroundColor: tailwindConfig().theme.colors.red[500],
         hoverBackgroundColor: tailwindConfig().theme.colors.red[600],
         barPercentage: 1,
@@ -59,7 +75,7 @@ useEffect(() => {
       },
       {
         label: 'Buruk',
-        data: [0],
+        data: [br],
         backgroundColor: tailwindConfig().theme.colors.orange[500],
         hoverBackgroundColor: tailwindConfig().theme.colors.orange[700],
         barPercentage: 1,
@@ -67,7 +83,7 @@ useEffect(() => {
       },
       {
         label: 'Netral',
-        data: [0],
+        data: [b],
         backgroundColor: tailwindConfig().theme.colors.yellow[400],
         hoverBackgroundColor: tailwindConfig().theme.colors.yellow[500],
         barPercentage: 1,
@@ -75,7 +91,7 @@ useEffect(() => {
       },
       {
         label: 'Memuaskan',
-        data: [0],
+        data: [mb],
         backgroundColor: tailwindConfig().theme.colors.green[400],
         hoverBackgroundColor: tailwindConfig().theme.colors.green[500],
         barPercentage: 1,

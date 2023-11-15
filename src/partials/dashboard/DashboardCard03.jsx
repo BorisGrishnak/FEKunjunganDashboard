@@ -15,7 +15,7 @@ const [isi, setIsi] = useState([]);
 useEffect(() => {
     const interval = setInterval(() => {
     const fetchData = () =>{
-        axios.get('https://localhost:7286/api/Review').then(postData => {
+        axios.get('https://localhost:7157/api/Review').then(postData => {
 
         // reshaping the array
         const customHeadings = postData.data.map(item=>({
